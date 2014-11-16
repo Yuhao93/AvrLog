@@ -1,5 +1,4 @@
 #include <wiringPi.h>
-#include <wiringPiI2C.h>
 #include <stdio.h>
 
 // Rpi gpio ports
@@ -20,6 +19,9 @@ int main() {
   // Signal that is fired when the input data is ready to be read
   pinMode(READY, INPUT);
 
+  // Initialize to low
+  digitalWrite(DOUT, LOW);
+
   // Prevent stdout from buffering data
   setbuf(stdout, NULL);
   char ch = 0;
@@ -32,7 +34,7 @@ int main() {
       // Acknowledge that data is ready, ready to read
       digitalWrite(DOUT, HIGH);
       // Wait until the data is written
-      while (digitalRead(DRED) != LOW);
+      while (digitalRead(READY) != LOW);
       // Read data
       char d = digitalRead(DIN) == HIGH ? 1 : 0;
       ch = (ch << 1) | d;
