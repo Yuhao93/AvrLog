@@ -37,6 +37,7 @@ void logger_write_bit(bool bit) {
   SET(*_logger_port, _logger_dready);
   // Wait until acknowledged
   while (GET(*_logger_pin, _logger_din) == 0);
+  // Write the bit
   if (bit) {
     SET(*_logger_port, _logger_dout);
   } else {
